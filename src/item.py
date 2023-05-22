@@ -23,6 +23,12 @@ class Item:
 
         Item.all.append(self)
 
+    def __repr__(self):
+        return f"{self.__class__.__name__}('{self.__name}', {self.price}, {self.quantity})"
+
+    def __str__(self):
+        return str(self.name)
+
     @property
     def name(self):
         """Возвращает наименование товара"""
@@ -63,4 +69,3 @@ class Item:
     def string_to_number(string):
         """Возвращает число из числа-строки"""
         return int(float(string))
-
