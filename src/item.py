@@ -69,3 +69,9 @@ class Item:
     def string_to_number(string):
         """Возвращает число из числа-строки"""
         return int(float(string))
+
+    def __add__(self, other):
+        """Реализует возможность сложения экземпляров класса Phone и Item (сложение по количеству товара в магазине)"""
+        if issubclass(other.__class__, self.__class__):
+            return self.quantity + other.quantity
+        raise ValueError('Складывать можно только объекты Item и дочерние от них.')

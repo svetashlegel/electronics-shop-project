@@ -1,6 +1,7 @@
 import pytest
 
 from src.item import Item
+from src.phone import Phone
 
 
 def test_calculate_total_price(laptop):
@@ -48,3 +49,15 @@ def test_class_repr(item1):
 
 def test_class_str(item1):
     assert str(item1) == 'Смартфон'
+
+
+def test_addition():
+    phone1 = Phone("iPhone 14", 120_000, 5, 2)
+    item1 = Item("Смартфон", 10000, 20)
+    assert item1 + phone1 == 25
+    assert phone1 + phone1 == 10
+
+
+def test_addition_exception(item1):
+    with pytest.raises(ValueError):
+        item1 + 10000
