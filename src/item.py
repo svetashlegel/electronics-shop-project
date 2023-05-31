@@ -1,4 +1,5 @@
 import csv
+import os
 
 
 class Item:
@@ -7,7 +8,9 @@ class Item:
     """
     pay_rate = 1.0
     all = []
-    items_data = r'C:\Users\Sveta\PycharmProjects\electronics-shop-project\src\items.csv'
+    absolute_path = os.path.dirname(__file__)
+    relative_path = "items.csv"
+    full_path = os.path.join(absolute_path, relative_path)
 
     def __init__(self, name: str, price: float, quantity: int) -> None:
         """
@@ -17,6 +20,7 @@ class Item:
         :param price: Цена за единицу товара.
         :param quantity: Количество товара в магазине.
         """
+        super().__init__()
         self.__name = name
         self.price = price
         self.quantity = quantity
@@ -57,7 +61,7 @@ class Item:
         self.price *= self.pay_rate
 
     @classmethod
-    def instantiate_from_csv(cls, file=items_data):
+    def instantiate_from_csv(cls, file=full_path):
         """Инициализирует экземпляры класса Item данными из файла"""
         with open(file) as csvfile:
             reader = csv.DictReader(csvfile)
