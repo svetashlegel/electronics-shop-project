@@ -1,6 +1,7 @@
 import pytest
+import os
 
-from src.item import Item
+from src.item import Item, InstantiateCSVError
 from src.phone import Phone
 
 
@@ -32,6 +33,11 @@ def test_instantiate_from_csv():
 def test_instantiate_from_csv_missing_file():
     with pytest.raises(FileNotFoundError):
         Item.instantiate_from_csv('missing_file')
+
+
+def test_instantiate_from_csv_damaged_file():
+    with pytest.raises(InstantiateCSVError):
+        Item.instantiate_from_csv('damaged_file.csv')
 
 
 def test_string_to_number():
