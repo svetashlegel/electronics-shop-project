@@ -2,6 +2,10 @@ import csv
 import os
 
 
+class InstantiateCSVError(Exception):
+    pass
+
+
 class Item:
     """
     Класс для представления товара в магазине.
@@ -63,11 +67,19 @@ class Item:
     @classmethod
     def instantiate_from_csv(cls, file=full_path):
         """Инициализирует экземпляры класса Item данными из файла"""
-        with open(file) as csvfile:
-            reader = csv.DictReader(csvfile)
-            for row in reader:
-                name, price, quantity = row['name'], row['price'], row['quantity']
-                cls(name, price, quantity)
+        if not os.path.isfile(file):
+            raise FileNotFoundError(f'Файл {file} не найден')
+        else:
+            with open(file) as csvfile:
+                reader = csv.DictReader(csvfile)
+                for row in reader:
+                    if len(row) != 3:
+                        raise InstantiateCSVError(f'Файл {file} поврежден')
+                    else:
+                        name, price, quantity = row['name'], row['price'], row['quantity']
+                        cls(name, price, quantity)
+
+
 
     @staticmethod
     def string_to_number(string):
@@ -79,3 +91,4 @@ class Item:
         if issubclass(other.__class__, self.__class__):
             return self.quantity + other.quantity
         raise ValueError('Складывать можно только объекты Item и дочерние от них.')
+
